@@ -1,7 +1,5 @@
 package com.vaha.jpaSync.domain;
 
-import java.sql.Clob;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,45 +15,46 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/* 전송코드정보 */
+/* 위탁기관정보 */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_TRAN_CD")
-public class TranCd extends AbstractEntity {
-
+@Table(name = "TB_CONS_AGNY")
+public class ConsAgny extends AbstractEntity {
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "TRAN_ID")
+	@Column(name = "COAG_ID")
 	@JsonProperty
-	private long id; // 전송T_아이디 INT UNSIGNED NOT NULL,
-
-	@Column(nullable = false, length = 6)
+	private long coagId;      // 위탁기관T_아이디
+	
+	@Column(nullable = false)
 	@JsonProperty
-	private String tranCd; // 전송_코드
-
-	@Column(nullable = true)
+	private long requId;      // 과제집행요청T_아이디
+	
+	@Column(nullable = false, length = 10)
 	@JsonProperty
-	private Clob tranHist; // 전송_내역
-
-	@Column(nullable = true)
+	private String instCd;      // 기관_코드
+	
+	@Column(nullable = false, length = 10)
 	@JsonProperty
-	private Clob procMeth; // 처리_방법
-
-	@Column(nullable = true, length = 255)
+	private String bizRegiNum; // 사업자_등록_번호
+	
+	@Column(nullable = false, length = 40)
 	@JsonProperty
-	private String rema; // 비고
-
+	private String instNm;      // 기관_명
+	
 	@Builder
-	public TranCd(String tranCd) {
-		this.tranCd = tranCd;
+	public ConsAgny(long requId, String instCd) {
+		this.requId = requId;
+		this.instCd = instCd;
 		this.setRegiDd();
 		this.setRegiTm();
 		this.setChanDd();
 		this.setChanTm();
 	}
-
+	
 }

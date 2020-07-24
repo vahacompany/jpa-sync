@@ -2,9 +2,6 @@ package com.vaha.jpaSync.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,34 +12,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/* 카드연체정보 */
+/* 집행전자세금계산서정보 */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_CARD_OVDUE")
-public class CardOvdue extends AbstractEntity {
+@Table(name = "TB_EXEC_ETAX")
+public class ExecEtax extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "OVDUE_ID")
-	@JsonProperty
-	private long id; // 카드연체T
-
 	@Column(nullable = false)
 	@JsonProperty
-	private CardIssu cardIssu; // 카드발급T
-
-	@Column(nullable = true, length = 16)
+	private long requId;   // 과제집행요청T_아이디
+	
+	@Column(nullable = false, length = 30)
 	@JsonProperty
-	private String cardNum; // 카드_번호
-
+	private String apprNum;  // 승인_번호
+	
+	@Column(nullable = true, length = 40)
+	@JsonProperty
+	private String supyPrsn; // 공급_자
+	
+	@Column(nullable = true, length = 10)
+	@JsonProperty
+	private String bizNum;   // 사업자_번호
+	
 	@Builder
-	public CardOvdue(CardIssu cardIssu, String cardNum) {
-		this.cardIssu = cardIssu;
-		this.cardNum = cardNum;
+	public ExecEtax(int requId, String apprNum) {
+		this.requId = requId;
+		this.apprNum = apprNum;
 		this.setRegiDd();
 		this.setRegiTm();
 		this.setChanDd();

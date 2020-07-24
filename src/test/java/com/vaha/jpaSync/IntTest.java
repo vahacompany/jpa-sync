@@ -7,14 +7,14 @@ public class IntTest {
 	public static void main(String[] args) {
 		IntTest intTest = new IntTest();
 
-		// intTest.numRangeCheck();
-		// intTest.asciiChange();
-		// intTest.charToByte();
-//		intTest.intToByteArray();
+		intTest.numRangeCheck();
+		intTest.asciiChange();
+		intTest.charToByte();
+		intTest.intToByteArray();
 		intTest.byteArrayToInt();
-//		
-//		intTest.byte2Int();
-//		intTest.long2Bytes();
+		
+		intTest.byte2Int();
+		intTest.long2Bytes();
 		
 		int Val=32767;
 		String Hex=Integer.toHexString(Val);
@@ -36,12 +36,6 @@ public class IntTest {
 		System.out.println(chkData);
 		System.out.println(chkInt);
 		System.out.println(chkFloat);
-	}
-
-	private void numChangeByte() {
-		byte[] aaa = { 0x00, 0x00, 0x04, 0x57 };
-
-		System.out.println("byte[0x31]---> " + aaa.toString());
 	}
 
 	private void asciiChange() {

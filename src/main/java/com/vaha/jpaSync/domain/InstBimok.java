@@ -1,97 +1,70 @@
 package com.vaha.jpaSync.domain;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /* 협약기관비목정보 */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Setter
 @Entity
-@Table(name="TB_CONV_BIMOK")
-@AttributeOverride(name = "id", column = @Column(name = "BIMOK_ID"))
+@Table(name = "TB_CONV_BIMOK")
 public class InstBimok extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id	@GeneratedValue	@JsonProperty
-	private long id;  // 테이블아이디
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "BIMOK_ID")
+	@JsonProperty
+	private long id; // 테이블아이디
 
-	@Column(nullable=false, length=10)	@JsonProperty
+	@Column(nullable = false, length = 10)
+	@JsonProperty
 	private String convInstCCd; // 협약_기관_코드
 
-	@Column(nullable=true, length=100)	@JsonProperty
+	@Column(nullable = true, length = 100)
+	@JsonProperty
 	private String convInstNm; // 협약_기관_명
 
-	@Column(nullable=false, length=6)	@JsonProperty
+	@Column(nullable = false, length = 6)
+	@JsonProperty
 	private String bimokGrouCd; // 비목_그룹_코드
 
-	@Column(nullable=true, length=10)	@JsonProperty
+	@Column(nullable = true, length = 10)
+	@JsonProperty
 	private String upBimokCd; // 상위_비목_코드
 
-	@Column(nullable=false, length=10)	@JsonProperty
+	@Column(nullable = false, length = 10)
+	@JsonProperty
 	private String bimokCd; // 비목_코드
 
-	@Column(nullable=false, length=100)	@JsonProperty
+	@Column(nullable = false, length = 100)
+	@JsonProperty
 	private String bimokNm; // 비목_명
 
-	public long getId() {
-		return id;
+	@Builder
+	public InstBimok(String convInstCCd, String bimokGrouCd, String bimokCd, String bimokNm) {
+		this.convInstCCd = convInstCCd; // 협약_기관_코드
+		this.bimokGrouCd = bimokGrouCd; // 비목_그룹_코드
+		this.bimokCd = bimokCd; // 비목_코드
+		this.bimokNm = bimokNm; // 비목_명
+		this.setRegiDd();
+		this.setRegiTm();
+		this.setChanDd();
+		this.setChanTm();
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getConvInstCCd() {
-		return convInstCCd;
-	}
-
-	public void setConvInstCCd(String convInstCCd) {
-		this.convInstCCd = convInstCCd;
-	}
-
-	public String getConvInstNm() {
-		return convInstNm;
-	}
-
-	public void setConvInstNm(String convInstNm) {
-		this.convInstNm = convInstNm;
-	}
-
-	public String getBimokGrouCd() {
-		return bimokGrouCd;
-	}
-
-	public void setBimokGrouCd(String bimokGrouCd) {
-		this.bimokGrouCd = bimokGrouCd;
-	}
-
-	public String getUpBimokCd() {
-		return upBimokCd;
-	}
-
-	public void setUpBimokCd(String upBimokCd) {
-		this.upBimokCd = upBimokCd;
-	}
-
-	public String getBimokCd() {
-		return bimokCd;
-	}
-
-	public void setBimokCd(String bimokCd) {
-		this.bimokCd = bimokCd;
-	}
-
-	public String getBimokNm() {
-		return bimokNm;
-	}
-
-	public void setBimokNm(String bimokNm) {
-		this.bimokNm = bimokNm;
-	}
-	
 }

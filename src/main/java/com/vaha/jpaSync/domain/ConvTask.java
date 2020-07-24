@@ -18,13 +18,11 @@ import lombok.Setter;
 
 
 /* 협약기관과제정보 */
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @Entity
 @Table(name = "TB_CONV_TASK")
-//@AttributeOverride(name = "id", column = @Column(name = "TASK_ID"))
 public class ConvTask extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -65,8 +63,8 @@ public class ConvTask extends AbstractEntity {
 	    this.rrReseRegiNum = rrReseRegiNum;
 	    this.setRegiDd(); // 등록_일자
 		this.setRegiTm(); // 등록_시간
-	    this.setChanDd(); // 등록_일자
-		this.setChanTm(); // 등록_시간
+	    this.setChanDd(); // 변경_일자
+		this.setChanTm(); // 변경_시간
 	}
 
 }
