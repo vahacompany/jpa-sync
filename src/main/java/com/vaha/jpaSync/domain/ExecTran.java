@@ -2,6 +2,7 @@ package com.vaha.jpaSync.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,6 +23,7 @@ public class ExecTran extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	@Column(nullable = false)
 	@JsonProperty
 	private long requId; // 과제집행요청T_아이디

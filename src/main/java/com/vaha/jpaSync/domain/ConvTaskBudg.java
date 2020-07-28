@@ -20,8 +20,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_CONV_BUDG")
-public class ConvBudg extends AbstractEntity {
+@Table(name = "TB_CONV_TASK_BUDG")
+public class ConvTaskBudg extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,10 +31,9 @@ public class ConvBudg extends AbstractEntity {
 	@JsonProperty
 	private long id; // 테이블ID
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10)
 	@JsonProperty
-	// @ManyToOne @JoinColumn(name = "TASK_ID")
-	private ConvTask convTask; // 협약기관과제
+	private String taskId;
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
@@ -42,7 +41,7 @@ public class ConvBudg extends AbstractEntity {
 
 	@Column(nullable = false, length = 30)
 	@JsonProperty
-	private String convTaskNm; // 협약_과제_번호
+	private String convTaskNum; // 협약_과제_번호
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
@@ -73,18 +72,17 @@ public class ConvBudg extends AbstractEntity {
 	private long inteStuf; // 이자_현물
 
 	@Builder
-	public ConvBudg(ConvTask convTask, String convInstCd, String convTaskNm, String bimokCd, long cash, long stuf,
-			long carrCash, long carrStuf, long inteCash, long inteStuf) {
-		this.convTask = convTask;
-		this.convInstCd = convInstCd;
-		this.convTaskNm = convTaskNm;
-		this.bimokCd = bimokCd;
-		this.cash = cash;
-		this.stuf = stuf;
-		this.carrCash = carrCash;
-		this.carrStuf = carrStuf;
-		this.inteCash = inteCash;
-		this.inteStuf = inteStuf;
+	public ConvTaskBudg(String pConvInstCd, String pConvTaskNum, String pBimokCd, long pCash, long pStuf, long pCarrCash,
+			long pCarrStuf, long pInteCash, long pInteStuf) {
+		this.convInstCd = pConvInstCd;
+		this.convTaskNum = pConvTaskNum;
+		this.bimokCd = pBimokCd;
+		this.cash = pCash;
+		this.stuf = pStuf;
+		this.carrCash = pCarrCash;
+		this.carrStuf = pCarrStuf;
+		this.inteCash = pInteCash;
+		this.inteStuf = pInteStuf;
 		this.setRegiDd();
 		this.setRegiTm();
 		this.setChanDd();

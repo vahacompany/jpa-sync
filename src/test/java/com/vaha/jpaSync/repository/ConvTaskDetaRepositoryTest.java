@@ -33,16 +33,13 @@ class ConvTaskDetaRepositoryTest {
 
 		convTaskRepository.save(convTask);
 
-		ConvTaskDeta convTaskDeta = ConvTaskDeta.builder().convTask(convTask) // 협약기관과제
-				.convInstCd("R001") // 협약_기관_코드
+		ConvTaskDeta convTaskDeta = ConvTaskDeta.builder().convInstCd("R001") // 협약_기관_코드
 				.convTaskNum("TASK001") // 협약_과제_번호
 				.bimokGrouBizNm("비목구분사업명칭") // 비목_구분_사업_명
 				.bizClasCd("BIZ001") // 사업_분류_코드
 				.techFielCd("TEAC01") // 기술_분야_코드
 				.totaRechStDd("20190101") // 총_연구_시작_일자
 				.totaRechEdDd("20211231") // 총_연구_종료_일자
-				.currRechStDd("20200101") // 당해_연구_시작_일자
-				.currRechEdDd("20201231") // 당해_연구_종료_일자
 				.currRechDevpAmt(100000000) // 당해_연구_개발비
 				.currGovAmt(50000000) // 해_정부_출연금
 				.currGovNonAmt(20000000) // 당해_정부_외_출연금
@@ -59,9 +56,9 @@ class ConvTaskDetaRepositoryTest {
 				.reseCardBkCd("082") // 연구비_카드_은행_코드
 				.reseCardPaymAccNum("738927923494") // 연구비_카드_결제_계좌_번호
 				.reseCardPaymAccHold("박길동") // 연구비_카드_결제_계좌_예금주
-				.rechInstBizRegiNum("1028377480") // 연구_수행기관_사업자_등록번호
-				.rechInstGrouCd("10") // 연구_수행기관_구분_코드
-				.rechInstCorpEngNm("수행기관영문") // 연구_수행기관_법인_영문_명
+				.reseInstBizRegiNum("1028377480") // 연구_수행기관_사업자_등록번호
+				.reseInstTypeCd("10") // 연구_수행기관_구분_코드
+				.reseInstCorpEngNm("수행기관영문") // 연구_수행기관_법인_영문_명
 				.build();
 
 		convTaskDetaRepository.save(convTaskDeta);
@@ -94,7 +91,6 @@ class ConvTaskDetaRepositoryTest {
 
 			Assertions.assertThat(convTaskDeta.getConvInstCd()).isEqualTo("R001");
 			Assertions.assertThat(convTaskDeta.getConvTaskNum()).isEqualTo("TASK001");
-			Assertions.assertThat(convTaskDeta.getConvTask().getConvTaskNum()).isEqualTo("TASK001");
 			Assertions.assertThat(convTaskDeta.getReseRequAccNum()).isEqualTo("7162683787622");
 
 			System.out.println("convTaskDeta.getConvInstCd() = " + convTaskDeta.getConvTaskNum());

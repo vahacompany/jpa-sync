@@ -20,8 +20,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_CONV_CONT")
-public class ConvCont extends AbstractEntity {
+@Table(name = "TB_CONV_TASK_CONT")
+public class ConvTaskCont extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,8 +33,7 @@ public class ConvCont extends AbstractEntity {
 
 	@Column(nullable = false)
 	@JsonProperty
-	// @ManyToOne @JoinColumn(name = "TASK_ID")
-	private ConvTask convTask; // 협약기관과제
+	private String taskId; // 협약기관과제T아이디
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
@@ -46,7 +45,7 @@ public class ConvCont extends AbstractEntity {
 
 	@Column(nullable = false, length = 20)
 	@JsonProperty
-	private String ordeRegiNum; // 차수_등록_번호
+	private String paymOrde; // 지급_차수
 
 	@Column(nullable = false, length = 8)
 	@JsonProperty
@@ -57,14 +56,14 @@ public class ConvCont extends AbstractEntity {
 	private long govAmt; // 정부_출연금
 
 	@Builder
-	public ConvCont(ConvTask convTask, String convInstCd, String convTaskNum, String ordeRegiNum, String paymDd,
-			long govAmt) {
-		this.convTask = convTask;
-		this.convInstCd = convInstCd;
-		this.convTaskNum = convTaskNum;
-		this.ordeRegiNum = ordeRegiNum;
-		this.paymDd = paymDd;
-		this.govAmt = govAmt;
+	public ConvTaskCont(String pTaskId, String pConvInstCd, String pConvTaskNum, String pPaymOrde, String pPaymDd,
+			long pGovAmt) {
+		this.taskId = pTaskId;
+		this.convInstCd = pConvInstCd;
+		this.convTaskNum = pConvTaskNum;
+		this.paymOrde = pPaymOrde;
+		this.paymDd = pPaymDd;
+		this.govAmt = pGovAmt;
 		this.setRegiDd();
 		this.setRegiTm();
 		this.setChanDd();

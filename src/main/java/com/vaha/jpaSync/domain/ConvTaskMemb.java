@@ -29,11 +29,11 @@ public class ConvTaskMemb extends AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "MEMB_ID")
 	@JsonProperty
-	private Long id; // 테이블ID
+	private long id; // 테이블ID
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10)
 	@JsonProperty
-	private ConvTask convTask; // 협약기관과제
+	private long taskId;
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
@@ -45,7 +45,7 @@ public class ConvTaskMemb extends AbstractEntity {
 
 	@Column(nullable = false, length = 6)
 	@JsonProperty
-	private String reseGrou; // 연구자_구분
+	private String rechType; // 연구자_구분
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
@@ -96,15 +96,15 @@ public class ConvTaskMemb extends AbstractEntity {
 	private String addr; // 주소
 
 	@Builder
-	public ConvTaskMemb(ConvTask convTask, String convInstCd, String convTaskNum, String reseGrou, String reseRegiNum,
-			String nm, String birt) {
-		this.convTask = convTask; // 협약기관과제
-		this.convInstCd = convInstCd; // 협약_기관_코드
-		this.convTaskNum = convTaskNum; // 협약_과제_번호
-		this.reseGrou = reseGrou; // 연구자_구분
-		this.reseRegiNum = reseRegiNum; // 연구자_등록_번호
-		this.nm = nm; // 성명
-		this.birt = birt; // 생년월일
+	public ConvTaskMemb(long pTaskId, String pConvInstCd, String pConvTaskNum, String pRechType, String pReseRegiNum,
+			String pNm, String pBirt) {
+		this.taskId = pTaskId; // 협약기관과제
+		this.convInstCd = pConvInstCd; // 협약_기관_코드
+		this.convTaskNum = pConvTaskNum; // 협약_과제_번호
+		this.rechType = pRechType; // 연구자_구분
+		this.reseRegiNum = pReseRegiNum; // 연구자_등록_번호
+		this.nm = pNm; // 성명
+		this.birt = pBirt; // 생년월일
 	}
 
 }

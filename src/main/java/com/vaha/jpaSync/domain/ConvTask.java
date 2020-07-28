@@ -1,10 +1,18 @@
 package com.vaha.jpaSync.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +23,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 /* 협약기관과제정보 */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,7 +42,8 @@ public class ConvTask extends AbstractEntity {
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
-	@NotNull private String convInstCd; // 협약_기관_코드
+	@NotNull
+	private String convInstCd; // 협약_기관_코드
 
 	@Column(nullable = false, length = 30)
 	@JsonProperty
@@ -53,17 +61,71 @@ public class ConvTask extends AbstractEntity {
 	@JsonProperty
 	private String rrReseRegiNum; // 책임연구자_연구자_등록번호
 
+	@Column(nullable = true, length = 20)
+	@JsonProperty
+	private String rrNm; // 책임연구자_성명
+
+	@Column(nullable = false, length = 4)
+	@JsonProperty
+	private String taskConvYy; // 과제_협약_년도
+
+	@Column(nullable = false, length = 8)
+	@JsonProperty
+	private String currRechStDd; // 당해_연구_시작_일자
+
+	@Column(nullable = false, length = 8)
+	@JsonProperty
+	private String currRechEdDd; // 당해_연구_종료_일자
+
+	@Column(nullable = false, length = 20)
+	@JsonProperty
+	private String task_stat; // 과제_상태
+
+	// 협약기관과제상세
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "convTask")
+	@JoinColumn(name = "DETA_ID")
+	@JsonProperty
+	private ConvTaskDeta convTaskDeta;
+
+	// 참여연구워정보 List
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "MEMB_ID")
+	@JsonProperty
+	private List<ConvTaskMemb> convTaskMembs = new ArrayList<ConvTaskMemb>();
+
+	// 협약과제예산정보 List
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "BUDG_ID")
+	@JsonProperty
+	private List<ConvTaskBudg> convTaskBudgs = new ArrayList<ConvTaskBudg>();
+	
+	// 협약과제정부출연금정보 List
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONT_ID")
+	@JsonProperty
+	private List<ConvTaskCont> convTaskConts = new ArrayList<ConvTaskCont>();
+	
+	// 협약과제발급카드정보 List
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "TACA_ID")
+	@JsonProperty
+	private List<ConvTaskCard> convTaskCards = new ArrayList<ConvTaskCard>();
+
 	@Builder
-	public ConvTask(String convInstCd, String convTaskNum, String convTaskNm, String bimokGrouCd,
-			String rrReseRegiNum) {
-	    this.convInstCd = convInstCd;
-	    this.convTaskNum = convTaskNum;
-	    this.convTaskNm = convTaskNm;
-	    this.bimokGrouCd = bimokGrouCd;
-	    this.rrReseRegiNum = rrReseRegiNum;
-	    this.setRegiDd(); // 등록_일자
+	public ConvTask(String pConvInstCd, String pConvTaskNum, String pConvTaskNm, String pBimokGrouCd, String pRrReseRegiNum,
+			String pRrNm, ConvTaskDeta pConvTaskDeta, ConvTaskMemb pConvTaskMemb, ConvTaskBudg pConvTaskBudg) {
+		this.convInstCd = pConvInstCd;
+		this.convTaskNum = pConvTaskNum;
+		this.convTaskNm = pConvTaskNm;
+		this.bimokGrouCd = pBimokGrouCd;
+		this.rrReseRegiNum = pRrReseRegiNum;
+		this.rrNm = pRrNm;
+		this.convTaskDeta = pConvTaskDeta;
+		this.convTaskMembs.add(pConvTaskMemb);
+		this.convTaskBudgs.add(pConvTaskBudg);
+		this.setRegiDd(); // 등록_일자
 		this.setRegiTm(); // 등록_시간
-	    this.setChanDd(); // 변경_일자
+		this.setChanDd(); // 변경_일자
 		this.setChanTm(); // 변경_시간
 	}
 

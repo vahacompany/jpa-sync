@@ -1,7 +1,9 @@
 package com.vaha.jpaSync.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,10 +34,11 @@ public class ConvTaskDeta extends AbstractEntity {
 	@Column(name = "DETA_ID")
 	@JsonProperty
 	private long id; // 협약과제상세T_아이디
-
-	@OneToOne
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "TASK_ID")
-	private ConvTask convTask; // 협약기관과제 TABLE
+	@JsonProperty
+	private ConvTask convTask; // 협약기관과제
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
@@ -64,14 +67,6 @@ public class ConvTaskDeta extends AbstractEntity {
 	@Column(nullable = false, length = 8)
 	@JsonProperty
 	private String totaRechEdDd; // 총_연구_종료_일자
-
-	@Column(nullable = false, length = 8)
-	@JsonProperty
-	private String currRechStDd; // 당해_연구_시작_일자
-
-	@Column(nullable = false, length = 8)
-	@JsonProperty
-	private String currRechEdDd; // 당해_연구_종료_일자
 
 	@Column(nullable = false)
 	@JsonProperty
@@ -139,53 +134,50 @@ public class ConvTaskDeta extends AbstractEntity {
 
 	@Column(nullable = true, length = 10)
 	@JsonProperty
-	private String rechInstBizRegiNum; // 연구_수행기관_사업자_등록번호
+	private String reseInstBizRegiNum; // 연구_수행기관_사업자_등록번호
 
 	@Column(nullable = true, length = 6)
 	@JsonProperty
-	private String rechInstGrouCd; // 연구_수행기관_구분_코드
+	private String reseInstTypeCd; // 연구_수행기관_구분_코드
 
 	@Column(nullable = true, length = 50)
 	@JsonProperty
-	private String rechInstCorpEngNm; // 연구_수행기관_법인_영문_명
+	private String reseInstCorpEngNm; // 연구_수행기관_법인_영문_명
 
 	@Builder
-	public ConvTaskDeta(ConvTask convTask, String convInstCd, String convTaskNum, String bimokGrouBizNm,
-			String bizClasCd, String techFielCd, String totaRechStDd, String totaRechEdDd, String currRechStDd,
-			String currRechEdDd, long currRechDevpAmt, long currGovAmt, long currGovNonAmt, long currCorpCash,
-			long currCorpStuf, long otheCounCash, int carrCash, int carrStuf, int inteCash, int inteStuf,
-			String reseRequBkCd, String reseRequAccNum, String reseRequAccHold, String reseCardBkCd,
-			String reseCardPaymAccNum, String reseCardPaymAccHold, String rechInstBizRegiNum, String rechInstGrouCd,
-			String rechInstCorpEngNm) {
-		this.convTask = convTask;
-		this.convInstCd = convInstCd;
-		this.convTaskNum = convTaskNum;
-		this.bimokGrouBizNm = bimokGrouBizNm;
-		this.bizClasCd = bizClasCd;
-		this.techFielCd = techFielCd;
-		this.totaRechStDd = totaRechStDd;
-		this.totaRechEdDd = totaRechEdDd;
-		this.currRechStDd = currRechStDd;
-		this.currRechEdDd = currRechEdDd;
-		this.currRechDevpAmt = currRechDevpAmt;
-		this.currGovAmt = currGovAmt;
-		this.currGovNonAmt = currGovNonAmt;
-		this.currCorpCash = currCorpCash;
-		this.currCorpStuf = currCorpStuf;
-		this.otheCounCash = otheCounCash;
-		this.carrCash = carrCash;
-		this.carrStuf = carrStuf;
-		this.inteCash = inteCash;
-		this.inteStuf = inteStuf;
-		this.reseRequBkCd = reseRequBkCd;
-		this.reseRequAccNum = reseRequAccNum;
-		this.reseRequAccHold = reseRequAccHold;
-		this.reseCardBkCd = reseCardBkCd;
-		this.reseCardPaymAccNum = reseCardPaymAccNum;
-		this.reseCardPaymAccHold = reseCardPaymAccHold;
-		this.rechInstBizRegiNum = rechInstBizRegiNum;
-		this.rechInstGrouCd = rechInstGrouCd;
-		this.rechInstCorpEngNm = rechInstCorpEngNm;
+	public ConvTaskDeta(ConvTask pConvTask, String pConvInstCd, String pConvTaskNum, String pBimokGrouBizNm, String pBizClasCd,
+			String pTechFielCd, String pTotaRechStDd, String pTotaRechEdDd, long pCurrRechDevpAmt, long pCurrGovAmt,
+			long pCurrGovNonAmt, long pCurrCorpCash, long pCurrCorpStuf, long pOtheCounCash, int pCarrCash, int pCarrStuf,
+			int pInteCash, int pInteStuf, String pReseRequBkCd, String pReseRequAccNum, String pReseRequAccHold,
+			String pReseCardBkCd, String pReseCardPaymAccNum, String pReseCardPaymAccHold, String pReseInstBizRegiNum,
+			String pReseInstTypeCd, String pReseInstCorpEngNm) {
+		this.convInstCd = pConvInstCd;
+		this.convTask = pConvTask;
+		this.convTaskNum = pConvTaskNum;
+		this.bimokGrouBizNm = pBimokGrouBizNm;
+		this.bizClasCd = pBizClasCd;
+		this.techFielCd = pTechFielCd;
+		this.totaRechStDd = pTotaRechStDd;
+		this.totaRechEdDd = pTotaRechEdDd;
+		this.currRechDevpAmt = pCurrRechDevpAmt;
+		this.currGovAmt = pCurrGovAmt;
+		this.currGovNonAmt = pCurrGovNonAmt;
+		this.currCorpCash = pCurrCorpCash;
+		this.currCorpStuf = pCurrCorpStuf;
+		this.otheCounCash = pOtheCounCash;
+		this.carrCash = pCarrCash;
+		this.carrStuf = pCarrStuf;
+		this.inteCash = pInteCash;
+		this.inteStuf = pInteStuf;
+		this.reseRequBkCd = pReseRequBkCd;
+		this.reseRequAccNum = pReseRequAccNum;
+		this.reseRequAccHold = pReseRequAccHold;
+		this.reseCardBkCd = pReseCardBkCd;
+		this.reseCardPaymAccNum = pReseCardPaymAccNum;
+		this.reseCardPaymAccHold = pReseCardPaymAccHold;
+		this.reseInstBizRegiNum = pReseInstBizRegiNum;
+		this.reseInstTypeCd = pReseInstTypeCd;
+		this.reseInstCorpEngNm = pReseInstCorpEngNm;
 		this.setRegiDd(); // 등록_일자
 		this.setRegiTm(); // 등록_시간
 		this.setChanDd(); // 등록_일자

@@ -1,6 +1,7 @@
 package com.vaha.jpaSync.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,28 @@ public class ConvTaskServiceImpl implements ConvTaskService {
 	private ConvTaskRepository convTaskRepository;
 
 	@Override
-	public List<ConvTask> getConvTaskList() {
+	public List<ConvTask> getConvTaskTotList() {
 		return convTaskRepository.findAll();
+	}
+
+	@Override
+	public ConvTask getConvTaskInfo(long taskId) {
+
+		Optional<ConvTask> convTask = convTaskRepository.findById(taskId);
+		return convTask.get();
+	}
+
+	@Override
+	public List<ConvTask> getConvTaskListOfRrRese(String rrReseRegiNum) {
+
+		return convTaskRepository.findByRrReseRegiNum(rrReseRegiNum);
+
+	}
+
+	@Override
+	public List<ConvTask> getConvTaskToConvYy(String convYear) {
+
+		return convTaskRepository.findByTaskConvYy(convYear);
 	}
 
 }

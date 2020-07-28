@@ -33,15 +33,15 @@ public class ConvTaskCard extends AbstractEntity {
 
 	@Column(nullable = false)
 	@JsonProperty
-	private ConvTask convTask; // 협약기관과제T
+	private String taskId; // 협약기관과제T 아이디
 
-	@Column(nullable = false)
-	@JsonProperty
-	private CardIssu cardIssu; // 카드발급T
+//	@Column(nullable = false)
+//	@JsonProperty
+//	private CardIssu cardIssu; // 카드발급T
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
-	private String convInstcd; // 협약_기관_코드
+	private String convInstCd; // 협약_기관_코드
 
 	@Column(nullable = false, length = 30)
 	@JsonProperty
@@ -52,12 +52,12 @@ public class ConvTaskCard extends AbstractEntity {
 	private String cardNum; // 카드_번호
 
 	@Builder
-	public ConvTaskCard(ConvTask convTask, CardIssu cardIssu, String convInstcd, String convTaskNum, String cardNum) {
-		this.convTask = convTask;
-		this.cardIssu = cardIssu;
-		this.convInstcd = convInstcd;
-		this.convTaskNum = convTaskNum;
-		this.cardNum = cardNum;
+	public ConvTaskCard(String pTaskId, CardIssu pCardIssu, String pConvInstCd, String pConvTaskNum, String pCardNum) {
+		this.taskId = pTaskId;
+		//this.cardIssu = pCardIssu;
+		this.convInstCd = pConvInstCd;
+		this.convTaskNum = pConvTaskNum;
+		this.cardNum = pCardNum;
 		this.setRegiDd(); // 등록_일자
 		this.setRegiTm(); // 등록_시간
 		this.setChanDd(); // 변경_일자

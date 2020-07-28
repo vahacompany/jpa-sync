@@ -140,6 +140,46 @@ public class ExecRequ extends AbstractEntity {
 	@Column(nullable = true, length = 6)
 	@JsonProperty
 	private String receTm; // 수신시간
+	
+//	@OneToOne
+//	@JoinColumn(name = "REQU_ID")
+	private ExecTran execTran; // 이체정보 TABLE
+
+//	@OneToMany
+//	@JoinColumn(name = "REQU_ID")
+	//private List<ExecItem> execItem; // 집행품목정보 TABLE
+	
+//	@OneToMany
+//	@JoinColumn(name = "REQU_ID")
+	//private List<ExecBrch> execBrch; // 집행출장정보 TABLE
+	
+//	@OneToMany
+//	@JoinColumn(name = "REQU_ID")
+	//private List<ExecSplt> execSplt; // 집행전문가활용정보 TABLE
+	
+//	@OneToMany
+//	@JoinColumn(name = "REQU_ID")
+	//private List<ExecOvtm> execOvtm; // 집행특근정보 TABLE
+	
+//	@OneToOne
+//	@JoinColumn(name = "REQU_ID")
+	//private List<ExecRech> execRech; // 집행연구원정보 TABLE
+	
+//	@OneToOne
+//	@JoinColumn(name = "REQU_ID")
+	private ExecEtax execEtax; // 집행전자세금계산서정보 TABLE
+	
+//	@OneToOne
+//	@JoinColumn(name = "REQU_ID")
+	//private ExecCard execCard; // 집행카드정보 TABLE
+	
+//	@OneToOne
+//	@JoinColumn(name = "TASK_ID")
+	//private ConsAgny consAgny; // 위탁기관정보 TABLE
+	
+//	@OneToMany
+//	@JoinColumn(name = "REQU_ID")
+	//private List<ExecEduc> execEduc; // 집행교육자정보 TABLE
 
 	@Builder
 	public ExecRequ(String convInstCd, String convTaskNum, String bimokCd, String execRequDd, String execRequSeri,
