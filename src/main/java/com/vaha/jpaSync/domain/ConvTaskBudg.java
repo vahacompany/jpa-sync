@@ -31,7 +31,7 @@ public class ConvTaskBudg extends AbstractEntity {
 	@JsonProperty
 	private long id; // 테이블ID
 
-	@Column(nullable = false, length = 10)
+	@Column(nullable = false)
 	@JsonProperty
 	private String taskId;
 

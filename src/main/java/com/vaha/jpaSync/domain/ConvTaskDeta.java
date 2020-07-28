@@ -1,14 +1,10 @@
 package com.vaha.jpaSync.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,10 +31,9 @@ public class ConvTaskDeta extends AbstractEntity {
 	@JsonProperty
 	private long id; // 협약과제상세T_아이디
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "TASK_ID")
+	@Column(nullable = false)
 	@JsonProperty
-	private ConvTask convTask; // 협약기관과제
+	private long taskId;
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
@@ -145,14 +140,13 @@ public class ConvTaskDeta extends AbstractEntity {
 	private String reseInstCorpEngNm; // 연구_수행기관_법인_영문_명
 
 	@Builder
-	public ConvTaskDeta(ConvTask pConvTask, String pConvInstCd, String pConvTaskNum, String pBimokGrouBizNm, String pBizClasCd,
-			String pTechFielCd, String pTotaRechStDd, String pTotaRechEdDd, long pCurrRechDevpAmt, long pCurrGovAmt,
-			long pCurrGovNonAmt, long pCurrCorpCash, long pCurrCorpStuf, long pOtheCounCash, int pCarrCash, int pCarrStuf,
-			int pInteCash, int pInteStuf, String pReseRequBkCd, String pReseRequAccNum, String pReseRequAccHold,
-			String pReseCardBkCd, String pReseCardPaymAccNum, String pReseCardPaymAccHold, String pReseInstBizRegiNum,
-			String pReseInstTypeCd, String pReseInstCorpEngNm) {
+	public ConvTaskDeta(String pConvInstCd, String pConvTaskNum, String pBimokGrouBizNm,
+			String pBizClasCd, String pTechFielCd, String pTotaRechStDd, String pTotaRechEdDd, long pCurrRechDevpAmt,
+			long pCurrGovAmt, long pCurrGovNonAmt, long pCurrCorpCash, long pCurrCorpStuf, long pOtheCounCash,
+			int pCarrCash, int pCarrStuf, int pInteCash, int pInteStuf, String pReseRequBkCd, String pReseRequAccNum,
+			String pReseRequAccHold, String pReseCardBkCd, String pReseCardPaymAccNum, String pReseCardPaymAccHold,
+			String pReseInstBizRegiNum, String pReseInstTypeCd, String pReseInstCorpEngNm) {
 		this.convInstCd = pConvInstCd;
-		this.convTask = pConvTask;
 		this.convTaskNum = pConvTaskNum;
 		this.bimokGrouBizNm = pBimokGrouBizNm;
 		this.bizClasCd = pBizClasCd;

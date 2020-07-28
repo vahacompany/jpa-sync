@@ -3,7 +3,6 @@ package com.vaha.jpaSync.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
@@ -28,6 +27,7 @@ class ConvTaskServiceTest {
 
 	@Autowired
 	ConvTaskServiceImpl convTaskService;
+
 	@Autowired
 	ConvTaskRepository convTaskRepository;
 
@@ -49,6 +49,7 @@ class ConvTaskServiceTest {
 	 */
 
 	@Test
+	@Transactional
 	void test협약기관_과제목록_조회_전체() {
 
 		List<ConvTask> result = convTaskService.getConvTaskTotList();
@@ -61,7 +62,6 @@ class ConvTaskServiceTest {
 				break;
 
 			assertNotNull(convTask.getConvTaskDeta());
-			assertEquals(convTask.getId(), convTask.getConvTaskDeta().getId());
 			assertEquals(convTask.getConvInstCd(), convTask.getConvTaskDeta().getConvInstCd());
 			assertEquals(convTask.getConvTaskNum(), convTask.getConvTaskDeta().getConvTaskNum());
 
@@ -73,7 +73,7 @@ class ConvTaskServiceTest {
 	@Test
 	void test과제번호로_과제정보_조회() {
 
-		ConvTask convTask = convTaskService.getConvTaskInfo(1L);
+		ConvTask convTask = convTaskService.getConvTaskInfoOfId(1L);
 
 		assertNotNull(convTask);
 		assertEquals(convTask.getId(), 1L);
@@ -81,11 +81,6 @@ class ConvTaskServiceTest {
 		assertNotNull(convTask.getConvTaskDeta());
 		assertEquals(convTask.getConvTaskDeta().getId(), 1L);
 
-	}
-
-	// @Test
-	void test_협약기관_과제목록_조건별_조회() {
-		fail("Not yet!");
 	}
 
 	@Test
@@ -104,7 +99,7 @@ class ConvTaskServiceTest {
 	@Test
 	void test연구책임자별_과제목록_조회() {
 
-		List<ConvTask> result = convTaskRepository.findByRrReseRegiNum("1000000001");
+		List<ConvTask> result = convTaskService.getConvTaskListOfRrRese("1000000001");
 
 		assertNotNull(result);
 		assertEquals(result.size(), 2);
@@ -119,12 +114,14 @@ class ConvTaskServiceTest {
 	@Transactional
 	void test과제번호로_과제예산정보조회() {
 
-		ConvTask convTask = convTaskRepository.findById(1L).get();
+		ConvTask convTask = convTaskService.getConvTaskInfoOfId(1L);
 
 		assertNotNull(convTask);
 
 		List<ConvTaskBudg> result = convTask.getConvTaskBudgs();
 
+		assertEquals(result.size(), 10);
+		
 		for (ConvTaskBudg convTaskBudg : result) {
 			if (convTaskBudg.getId() == 1L) {
 				assertEquals(convTaskBudg.getConvInstCd(), "A001");
@@ -138,12 +135,14 @@ class ConvTaskServiceTest {
 	@Transactional
 	void test과제번호로_참여연구원정보조회() {
 
-		ConvTask convTask = convTaskRepository.findById(1L).get();
+		ConvTask convTask = convTaskService.getConvTaskInfoOfId(1L);
 
 		assertNotNull(convTask);
 
 		List<ConvTaskMemb> result = convTask.getConvTaskMembs();
 
+		assertEquals(result.size(), 9);
+		
 		for (ConvTaskMemb convTaskMemb : result) {
 			if (convTaskMemb.getId() == 1L)
 				assertEquals(convTaskMemb.getReseRegiNum(), "1000000001");
@@ -155,11 +154,13 @@ class ConvTaskServiceTest {
 	@Transactional
 	void test과제번호로_정부출연금정보조회() {
 
-		ConvTask convTask = convTaskRepository.findById(1L).get();
+		ConvTask convTask = convTaskService.getConvTaskInfoOfId(1L);
 
 		assertNotNull(convTask);
 
 		List<ConvTaskCont> result = convTask.getConvTaskConts();
+		
+		assertEquals(result.size(), 3);
 
 		for (ConvTaskCont convTaskCont : result) {
 			if (convTaskCont.getId() == 1L) {
@@ -174,11 +175,13 @@ class ConvTaskServiceTest {
 	@Transactional
 	void test과제번호로_과제별_발급카드_조회() {
 
-		ConvTask convTask = convTaskRepository.findById(1L).get();
+		ConvTask convTask = convTaskService.getConvTaskInfoOfId(1L);
 
 		assertNotNull(convTask);
 
 		List<ConvTaskCard> result = convTask.getConvTaskCards();
+		
+		assertEquals(result.size(), 4);
 
 		for (ConvTaskCard convTaskCard : result) {
 			if (convTaskCard.getId() == 1L) {
@@ -189,9 +192,30 @@ class ConvTaskServiceTest {
 
 	}
 
-	// @Test
-	void test과제번호로_과제전체정보조회() {
-		fail("Not yet!");
+	@Test
+	void test다중조건으로_과제정보조회() {
+
+		List<ConvTask> result = convTaskService.findByConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat(
+				"A001", "20180001", "1000000001", "2018", "03");
+
+		for (ConvTask convTask : result) {
+			if (convTask.getConvTaskNum().equals("20180001")) {
+				assertEquals(convTask.getConvInstCd(), "A001");
+				assertEquals(convTask.getConvTaskNum(), "20180001");
+			}
+		}
 	}
 
+	@Test
+	void test협약과제_전체정보조회() {
+
+		List<ConvTask> result = convTaskService.findByConditionCustom("", "", "1000000001", "", "");
+
+		for (ConvTask convTask : result) {
+			if (convTask.getConvTaskNum().equals("20180001")) {
+				assertEquals(convTask.getConvInstCd(), "A001");
+				assertEquals(convTask.getConvTaskNum(), "20180001");
+			}
+		}
+	}
 }

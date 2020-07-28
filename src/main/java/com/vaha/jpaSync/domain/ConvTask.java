@@ -79,50 +79,52 @@ public class ConvTask extends AbstractEntity {
 
 	@Column(nullable = false, length = 20)
 	@JsonProperty
-	private String task_stat; // 과제_상태
+	private String taskStat; // 과제_상태
 
 	// 협약기관과제상세
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "convTask")
-	@JoinColumn(name = "DETA_ID")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "taskId")
 	@JsonProperty
 	private ConvTaskDeta convTaskDeta;
 
-	// 참여연구워정보 List
+	// 참여연구원정보 List
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "MEMB_ID")
+	@JoinColumn(name = "taskId")
 	@JsonProperty
 	private List<ConvTaskMemb> convTaskMembs = new ArrayList<ConvTaskMemb>();
 
 	// 협약과제예산정보 List
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "BUDG_ID")
+	@JoinColumn(name = "taskId")
 	@JsonProperty
 	private List<ConvTaskBudg> convTaskBudgs = new ArrayList<ConvTaskBudg>();
-	
+
 	// 협약과제정부출연금정보 List
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "CONT_ID")
+	@JoinColumn(name = "taskId")
 	@JsonProperty
 	private List<ConvTaskCont> convTaskConts = new ArrayList<ConvTaskCont>();
-	
+
 	// 협약과제발급카드정보 List
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "TACA_ID")
+	@JoinColumn(name = "taskId")
 	@JsonProperty
 	private List<ConvTaskCard> convTaskCards = new ArrayList<ConvTaskCard>();
 
 	@Builder
-	public ConvTask(String pConvInstCd, String pConvTaskNum, String pConvTaskNm, String pBimokGrouCd, String pRrReseRegiNum,
-			String pRrNm, ConvTaskDeta pConvTaskDeta, ConvTaskMemb pConvTaskMemb, ConvTaskBudg pConvTaskBudg) {
+	public ConvTask(String pConvInstCd, String pConvTaskNum, String pConvTaskNm, String pBimokGrouCd,
+			String pRrReseRegiNum, String pRrNm, String pTaskConvYy, String pCurrRechStDd, String pCurrRechEdDd,
+			String pTaskStat) {
 		this.convInstCd = pConvInstCd;
 		this.convTaskNum = pConvTaskNum;
 		this.convTaskNm = pConvTaskNm;
 		this.bimokGrouCd = pBimokGrouCd;
 		this.rrReseRegiNum = pRrReseRegiNum;
 		this.rrNm = pRrNm;
-		this.convTaskDeta = pConvTaskDeta;
-		this.convTaskMembs.add(pConvTaskMemb);
-		this.convTaskBudgs.add(pConvTaskBudg);
+		this.taskConvYy = pTaskConvYy;
+		this.currRechStDd = pCurrRechStDd;
+		this.currRechEdDd = pCurrRechEdDd;
+		this.taskStat = pTaskStat;
 		this.setRegiDd(); // 등록_일자
 		this.setRegiTm(); // 등록_시간
 		this.setChanDd(); // 변경_일자
