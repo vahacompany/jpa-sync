@@ -1,8 +1,12 @@
 package com.vaha.jpaSync.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,37 +28,29 @@ class ConvTaskCRUDTest {
 	ConvTaskRepository convTaskRepository;
 	@Autowired
 	ConvTaskDetaRepository convTaskDetaRepository;
+	
+	// 협약_과제_번호
+	static String lConvTaskNum = "TASK999";
+	
+	static ConvTask convTask;
+	static ConvTaskDeta convTaskDeta;
 
-	// @BeforeAll
-	void setUp() throws Exception {
-		System.out.println("@BeforeAll---");
-	}
-
-	// @AfterAll
-	void tearDown() throws Exception {
-		System.out.println("@AfterAll---");
-	}
-
-	/*
-	 * 1. 협약기관_과제기본_상세_등록 2.
-	 */
-
-	@Test
-	void test협약기관_과제기본_상세_등록() {
-
-		ConvTask convTask = ConvTask.builder().pConvInstCd("R999")  // 협약_기관_코드
-				.pConvTaskNum("TASK999")  // 협약_과제_번호
+	@BeforeAll
+	static void setUp() throws Exception {
+		// 정보 생성
+		convTask = ConvTask.builder().pConvInstCd("R999") // 협약_기관_코드
+				.pConvTaskNum(lConvTaskNum) // 협약_과제_번호
 				.pConvTaskNm("협약과제 등록테스트") // 협약_과제명
-				.pBimokGrouCd("BM999")  // 비목그룹코드
-				.pRrReseRegiNum("9999999999")  // 책임연구자 연구자등록번호
-				.pTaskConvYy("2020")// 협약년도
+				.pBimokGrouCd("BM999") // 비목그룹코드
+				.pRrReseRegiNum("9999999999") // 책임연구자 연구자등록번호
+				.pRrNm("테스트성명").pTaskConvYy("2020")// 협약년도
 				.pCurrRechStDd("20200101")// 당해년도 연구수행 시작일자
 				.pCurrRechEdDd("20201231")// 당해년도 연구수행 종료일자
 				.pTaskStat("99")// 과제상태
 				.build();
 
-		ConvTaskDeta convTaskDeta = ConvTaskDeta.builder().pConvInstCd("R999") // 협약_기관_코드
-				.pConvTaskNum("TASK999") // 협약_과제_번호
+		convTaskDeta = ConvTaskDeta.builder().pConvInstCd("R999") // 협약_기관_코드
+				.pConvTaskNum(lConvTaskNum) // 협약_과제_번호
 				.pBimokGrouBizNm("비목구분사업명칭") // 비목_구분_사업_명
 				.pBizClasCd("BIZ001") // 사업_분류_코드
 				.pTechFielCd("TEAC01") // 기술_분야_코드
@@ -80,7 +76,24 @@ class ConvTaskCRUDTest {
 				.pReseInstTypeCd("10") // 연구_수행기관_구분_코드
 				.pReseInstCorpEngNm("수행기관영문") // 연구_수행기관_법인_영문_명
 				.build();
+	}
 
+	//@AfterAll
+	static void tearDown() throws Exception {
+		System.out.println("@AfterAll---");
+	}
+
+	/* 1. 협약과제기본_상세_CRUD */
+	/* 2. 협약과제_참여연구둰_CRUD */
+	/* 3. 협약과제_예산정보_CRUD */
+	/* 4. 협약과제_정부툴연금_CRUD */
+	/* 5. 협약과제_발급카드정보_CRUD */
+	/* 6. 협약기관_과제기본_상세_CRUD */
+
+	@Test
+	void test협약과제기본_상세_CRUD() {
+
+		convTaskDeta.setConvTask(convTask);
 		convTask.setConvTaskDeta(convTaskDeta);
 
 		List<ConvTask> convTasks = new ArrayList<ConvTask>();
@@ -89,20 +102,48 @@ class ConvTaskCRUDTest {
 
 		convTaskService.saveConvTask(convTasks);
 
-//		assertNotNull(result);
-//		int cnt = 0;
-//
-//		for (ConvTask convTask : result) {
-//			if (cnt > 4)
-//				break;
-//
-//			assertNotNull(convTask.getConvTaskDeta());
-//			assertEquals(convTask.getId(), convTask.getConvTaskDeta().getId());
-//			assertEquals(convTask.getConvInstCd(), convTask.getConvTaskDeta().getConvInstCd());
-//			assertEquals(convTask.getConvTaskNum(), convTask.getConvTaskDeta().getConvTaskNum());
-//
-//			cnt++;
-//		}
+		ConvTask schConvTask = convTaskService.getConvTaskOfConvTaskNum(lConvTaskNum);
+
+		assertNotNull(schConvTask);
+		assertEquals(schConvTask.getConvTaskNum(), lConvTaskNum);
+		assertEquals(schConvTask.getConvTaskDeta().getConvTaskNum(), lConvTaskNum);
+
+		// 정보변경
+		schConvTask.getConvTaskDeta().setBimokGrouBizNm("비목구분사업명_변경");
+		schConvTask.setConvTaskNm("협약과제 변경테스트");
+
+		ConvTask updConvTask = convTaskService.saveConvTask(schConvTask);
+
+		assertNotNull(updConvTask);
+		assertEquals(updConvTask.getConvTaskNum(), lConvTaskNum);
+		assertEquals(updConvTask.getConvTaskDeta().getConvTaskNum(), lConvTaskNum);
+		assertEquals(updConvTask.getConvTaskNm(), "협약과제 변경테스트");
+		assertEquals(updConvTask.getConvTaskDeta().getBimokGrouBizNm(), "비목구분사업명_변경");
+
+		// 정보삭제
+		int cnt = convTaskService.deleteConvTask(updConvTask);
+
+		assertEquals(cnt, 1);
+		assertEquals(convTaskService.getConvTaskOfConvTaskNum(lConvTaskNum), null);
+
+		// 다중등록
+		convTasks = new ArrayList<ConvTask>();
+		convTask.setConvTaskDeta(convTaskDeta);
+		convTasks.add(convTask);
+		convTask.setConvTaskDeta(convTaskDeta);
+		convTasks.add(convTask);
+
+		int saveCnt = convTaskService.saveConvTask(convTasks);
+
+		assertEquals(saveCnt, 2);
+
+		// 다중삭제
+		convTasks = new ArrayList<ConvTask>();
+		convTasks = convTaskService.getConvTasksOfConditionCustom("", lConvTaskNum, "", "", "");
+		
+		int deleteCnt = convTaskService.deleteConvTask(convTasks);
+
+		assertEquals(deleteCnt, 2);
 
 	}
 

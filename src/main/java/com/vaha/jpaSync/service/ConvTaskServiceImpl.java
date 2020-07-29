@@ -15,7 +15,7 @@ public class ConvTaskServiceImpl implements ConvTaskService {
 	private ConvTaskRepository convTaskRepository;
 
 	@Override
-	public List<ConvTask> getConvTaskTotList() {
+	public List<ConvTask> getConvTasks() {
 		return convTaskRepository.findAll();
 	}
 
@@ -26,27 +26,23 @@ public class ConvTaskServiceImpl implements ConvTaskService {
 	}
 
 	@Override
-	public List<ConvTask> getConvTaskListOfRrRese(String rrReseRegiNum) {
+	public List<ConvTask> getConvTasksOfRrRese(String rrReseRegiNum) {
 		return convTaskRepository.findByRrReseRegiNum(rrReseRegiNum);
 	}
 
 	@Override
-	public List<ConvTask> getConvTaskToConvYy(String convYear) {
+	public List<ConvTask> getConvTasksOfConvYy(String convYear) {
 		return convTaskRepository.findByTaskConvYy(convYear);
 	}
-
+	
 	@Override
-	public int saveConvTask(List<ConvTask> convTasks) {
-
-		for (ConvTask convTask : convTasks) {
-			convTaskRepository.save(convTask);
-		}
-
-		return 0;
+	public ConvTask getConvTaskOfConvTaskNum(String convTaskNum) {
+		
+		return convTaskRepository.findByConvTaskNum(convTaskNum);
 	}
 
 	@Override
-	public List<ConvTask> findByConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat(String convInstCd,
+	public List<ConvTask> getConvTasksOfConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat(String convInstCd,
 			String convTaskNum, String rrReseRegiNum, String taskConvYy, String taskStat) {
 		List<ConvTask> convTasks = convTaskRepository
 				.findByConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat(convInstCd, convTaskNum,
@@ -55,11 +51,44 @@ public class ConvTaskServiceImpl implements ConvTaskService {
 	}
 
 	@Override
-	public List<ConvTask> findByConditionCustom(String convInstCd, String convTaskNum, String rrReseRegiNum,
+	public List<ConvTask> getConvTasksOfConditionCustom(String convInstCd, String convTaskNum, String rrReseRegiNum,
 			String taskConvYy, String taskStat) {
 		List<ConvTask> convTasks = convTaskRepository.findByConditionCustom(convInstCd, convTaskNum, rrReseRegiNum,
 				taskConvYy, taskStat);
 		return convTasks;
 	}
+	
+	@Override
+	public int saveConvTask(List<ConvTask> convTasks) {
 
+		for (ConvTask convTask : convTasks) {
+			this.saveConvTask(convTask);
+		}
+
+		return convTasks.size();
+	}
+	
+	@Override
+	public ConvTask saveConvTask(ConvTask convTask) {
+		
+		return convTaskRepository.save(convTask);
+	}
+
+	@Override
+	public int deleteConvTask(List<ConvTask> convTasks) {
+
+		for (ConvTask convTask : convTasks) {
+			this.deleteConvTask(convTask);
+		}
+
+		return convTasks.size();
+	}
+	
+	@Override
+	public int deleteConvTask(ConvTask convTask) {
+		
+		convTaskRepository.delete(convTask);
+		
+		return 1;
+	}
 }

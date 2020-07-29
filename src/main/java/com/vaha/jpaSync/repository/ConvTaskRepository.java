@@ -12,15 +12,17 @@ public interface ConvTaskRepository extends JpaRepository<ConvTask, Long> {
 
 	public List<ConvTask> findByTaskConvYy(String convYear);
 
+	public ConvTask findByConvTaskNum(String convTaskNum);
+	
 	public List<ConvTask> findByRrReseRegiNum(String rrReseRegiNum);
 
 	public List<ConvTask> findByConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat(String convInstCd,
 			String convTaskNum, String rrReseRegiNum, String taskConvYy, String taskStat);
 
-	@Query("select c, d, m from ConvTask c "
+	@Query("select c, d, m, b from ConvTask c "
 			+ "join c.convTaskDeta d "
-			+ "join c.convTaskMembs m "
-			+ "join c.convTaskBudgs b "
+			+ "left outer join c.convTaskMembs m "
+			+ "left outer join c.convTaskBudgs b "
 			+ "where c.convInstCd like %?1% "
 			+ "and c.convTaskNum like %?2% "
 			+ "and c.rrReseRegiNum like %?3% "

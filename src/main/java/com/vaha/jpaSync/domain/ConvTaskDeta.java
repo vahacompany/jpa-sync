@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,9 +33,10 @@ public class ConvTaskDeta extends AbstractEntity {
 	@JsonProperty
 	private long id; // 협약과제상세T_아이디
 	
-	@Column(nullable = false)
+	@OneToOne
+	@JoinColumn(name = "TASK_ID")
 	@JsonProperty
-	private long taskId;
+	private ConvTask convTask;
 
 	@Column(nullable = false, length = 10)
 	@JsonProperty
@@ -140,12 +143,13 @@ public class ConvTaskDeta extends AbstractEntity {
 	private String reseInstCorpEngNm; // 연구_수행기관_법인_영문_명
 
 	@Builder
-	public ConvTaskDeta(String pConvInstCd, String pConvTaskNum, String pBimokGrouBizNm,
+	public ConvTaskDeta(ConvTask pConvTask, String pConvInstCd, String pConvTaskNum, String pBimokGrouBizNm,
 			String pBizClasCd, String pTechFielCd, String pTotaRechStDd, String pTotaRechEdDd, long pCurrRechDevpAmt,
 			long pCurrGovAmt, long pCurrGovNonAmt, long pCurrCorpCash, long pCurrCorpStuf, long pOtheCounCash,
 			int pCarrCash, int pCarrStuf, int pInteCash, int pInteStuf, String pReseRequBkCd, String pReseRequAccNum,
 			String pReseRequAccHold, String pReseCardBkCd, String pReseCardPaymAccNum, String pReseCardPaymAccHold,
 			String pReseInstBizRegiNum, String pReseInstTypeCd, String pReseInstCorpEngNm) {
+		this.convTask = pConvTask;
 		this.convInstCd = pConvInstCd;
 		this.convTaskNum = pConvTaskNum;
 		this.bimokGrouBizNm = pBimokGrouBizNm;

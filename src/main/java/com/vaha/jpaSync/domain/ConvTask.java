@@ -82,7 +82,7 @@ public class ConvTask extends AbstractEntity {
 	private String taskStat; // 과제_상태
 
 	// 협약기관과제상세
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "convTask")
 	@JoinColumn(name = "taskId")
 	@JsonProperty
 	private ConvTaskDeta convTaskDeta;

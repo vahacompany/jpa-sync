@@ -52,7 +52,7 @@ class ConvTaskServiceTest {
 	@Transactional
 	void test협약기관_과제목록_조회_전체() {
 
-		List<ConvTask> result = convTaskService.getConvTaskTotList();
+		List<ConvTask> result = convTaskService.getConvTasks();
 
 		assertNotNull(result);
 		int cnt = 0;
@@ -86,7 +86,7 @@ class ConvTaskServiceTest {
 	@Test
 	void test협약기관_년도별_과제목록_조회() {
 
-		List<ConvTask> result = convTaskService.getConvTaskToConvYy("2018");
+		List<ConvTask> result = convTaskService.getConvTasksOfConvYy("2018");
 
 		assertNotNull(result);
 
@@ -99,7 +99,7 @@ class ConvTaskServiceTest {
 	@Test
 	void test연구책임자별_과제목록_조회() {
 
-		List<ConvTask> result = convTaskService.getConvTaskListOfRrRese("1000000001");
+		List<ConvTask> result = convTaskService.getConvTasksOfRrRese("1000000001");
 
 		assertNotNull(result);
 		assertEquals(result.size(), 2);
@@ -195,7 +195,7 @@ class ConvTaskServiceTest {
 	@Test
 	void test다중조건으로_과제정보조회() {
 
-		List<ConvTask> result = convTaskService.findByConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat(
+		List<ConvTask> result = convTaskService.getConvTasksOfConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat(
 				"A001", "20180001", "1000000001", "2018", "03");
 
 		for (ConvTask convTask : result) {
@@ -208,8 +208,8 @@ class ConvTaskServiceTest {
 
 	@Test
 	void test협약과제_전체정보조회() {
-
-		List<ConvTask> result = convTaskService.findByConditionCustom("", "", "1000000001", "", "");
+		// @query 를 통해 쿼리를 임의로 생성하여 실행하는 경우
+		List<ConvTask> result = convTaskService.getConvTasksOfConditionCustom("", "", "1000000001", "", "");
 
 		for (ConvTask convTask : result) {
 			if (convTask.getConvTaskNum().equals("20180001")) {
