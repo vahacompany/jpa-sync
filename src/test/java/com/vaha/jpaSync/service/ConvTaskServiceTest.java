@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ import com.vaha.jpaSync.domain.ConvTaskBudg;
 import com.vaha.jpaSync.domain.ConvTaskCard;
 import com.vaha.jpaSync.domain.ConvTaskCont;
 import com.vaha.jpaSync.domain.ConvTaskMemb;
-import com.vaha.jpaSync.repository.ConvTaskRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,17 +29,14 @@ class ConvTaskServiceTest {
 	@Autowired
 	ConvTaskServiceImpl convTaskService;
 
-	@Autowired
-	ConvTaskRepository convTaskRepository;
-
-	// @BeforeAll
+	@BeforeEach
 	void setUp() throws Exception {
-		System.out.println("@BeforeAll---");
+		
 	}
 
-	// @AfterAll
+	@AfterEach
 	void tearDown() throws Exception {
-		System.out.println("@AfterAll---");
+		
 	}
 
 	/*
@@ -121,7 +119,7 @@ class ConvTaskServiceTest {
 		List<ConvTaskBudg> result = convTask.getConvTaskBudgs();
 
 		assertEquals(result.size(), 10);
-		
+
 		for (ConvTaskBudg convTaskBudg : result) {
 			if (convTaskBudg.getId() == 1L) {
 				assertEquals(convTaskBudg.getConvInstCd(), "A001");
@@ -142,7 +140,7 @@ class ConvTaskServiceTest {
 		List<ConvTaskMemb> result = convTask.getConvTaskMembs();
 
 		assertEquals(result.size(), 9);
-		
+
 		for (ConvTaskMemb convTaskMemb : result) {
 			if (convTaskMemb.getId() == 1L)
 				assertEquals(convTaskMemb.getReseRegiNum(), "1000000001");
@@ -159,7 +157,7 @@ class ConvTaskServiceTest {
 		assertNotNull(convTask);
 
 		List<ConvTaskCont> result = convTask.getConvTaskConts();
-		
+
 		assertEquals(result.size(), 3);
 
 		for (ConvTaskCont convTaskCont : result) {
@@ -180,7 +178,7 @@ class ConvTaskServiceTest {
 		assertNotNull(convTask);
 
 		List<ConvTaskCard> result = convTask.getConvTaskCards();
-		
+
 		assertEquals(result.size(), 4);
 
 		for (ConvTaskCard convTaskCard : result) {
@@ -195,8 +193,9 @@ class ConvTaskServiceTest {
 	@Test
 	void test다중조건으로_과제정보조회() {
 
-		List<ConvTask> result = convTaskService.getConvTasksOfConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat(
-				"A001", "20180001", "1000000001", "2018", "03");
+		List<ConvTask> result = convTaskService
+				.getConvTasksOfConvInstCdAndConvTaskNumAndRrReseRegiNumAndTaskConvYyAndTaskStat("A001", "20180001",
+						"1000000001", "2018", "03");
 
 		for (ConvTask convTask : result) {
 			if (convTask.getConvTaskNum().equals("20180001")) {

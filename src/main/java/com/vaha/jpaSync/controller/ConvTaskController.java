@@ -1,35 +1,45 @@
 package com.vaha.jpaSync.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+import com.vaha.jpaSync.domain.ConvTask;
+import com.vaha.jpaSync.service.ConvTaskServiceImpl;
+
+@Controller
 public class ConvTaskController {
 
-//	@Autowired
-//	ConvTaskServiceImpl service;
-	
-	@RequestMapping("/convTaskList/taskId=86L")
-	public ModelAndView getConvTasks()
-	{
-		ModelAndView mav = new ModelAndView("index");
-		mav.addObject("result","Hello World###");
-		return mav;
+	@Autowired
+	ConvTaskServiceImpl convTaskService;
+
+	@RequestMapping("/getTest")
+	public ModelAndView getTest() {
+		System.out.println("/getTest");
+		ModelAndView mav = new ModelAndView("test");
+		mav.addObject("result", "Hello World###");
 		
-//		ConvTaskService service =  new ConvTaskServiceImpl();
-//		
-//		ResponseDTO<List<ConvTask>> response = new ResponseDTO<>();
-//
-//		List<ConvTask> convTaskList = service.getConvTaskList();
-//
-//		if (convTaskList.size() == 0)
-//		{
-//			response.setCheck(false);
-//		}
-//
-//		response.setResponse(convTaskList);
-//
-//		return response;
+		return mav;
+
+	}
+
+	@RequestMapping("/getConvTasks")
+	public ModelAndView getConvTasks() {
+		System.out.println("/getConvTasks");
+		ModelAndView mav = new ModelAndView("convTask");
+
+		List<ConvTask> convTaskList = convTaskService.getConvTasks();
+		mav.addObject("size", convTaskList.size());
+
+		if (convTaskList.size() == 0) {
+			mav.addObject("size", "Error");
+		}
+
+		mav.addObject("data", convTaskList);
+
+		return mav;
 	}
 }

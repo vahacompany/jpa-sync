@@ -1,8 +1,10 @@
-package com.vaha.jpaSync.repository;
+package com.vaha.jpaSync.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ResponseDTO<T> {
 
 //@ApiModelProperty(value="상태코드")
@@ -52,6 +54,5 @@ public class ResponseDTO<T> {
 	public void setResponse(T response) {
 		this.response = response;
 	}
-
 
 }

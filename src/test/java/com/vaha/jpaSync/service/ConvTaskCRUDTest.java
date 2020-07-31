@@ -78,11 +78,6 @@ class ConvTaskCRUDTest {
 				.build();
 	}
 
-	//@AfterAll
-	static void tearDown() throws Exception {
-		System.out.println("@AfterAll---");
-	}
-
 	/* 1. 협약과제기본_상세_CRUD */
 	/* 2. 협약과제_참여연구둰_CRUD */
 	/* 3. 협약과제_예산정보_CRUD */
