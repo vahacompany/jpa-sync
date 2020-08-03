@@ -145,7 +145,12 @@ class ConvTaskControllerTest {
 		 
 		assertEquals(convTaskList.size(), (Integer) result.getModelAndView().getModel().get("size"));
 
-		List<ConvTask> convTasks = (List<ConvTask>) result.getModelAndView().getModel().get("data");
+		List<ConvTask> convTasks = new ArrayList<>();
+		List<?> tempList = (List<?>) result.getModelAndView().getModel().get("data");
+		for (Object obj:tempList) {
+			if (obj instanceof ConvTask)
+				convTasks.add((ConvTask)obj);
+		}
 
 		for (ConvTask convTask : convTasks) {
 			System.out.println("convTask.getConvTaskNum ====" + convTask.getConvTaskNum());
